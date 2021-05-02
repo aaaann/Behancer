@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Behancer</string>
+    <string name="load_error">Something went wrong. Try again.</string>
+    <string name="projects_title">Projects</string>
+</resources>
