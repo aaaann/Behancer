@@ -1,4 +1,4 @@
-package com.annevonwolffen.behancer
+package com.annevonwolffen.behancer.ui
 
 import android.view.View
 import androidx.recyclerview.widget.ListAdapter

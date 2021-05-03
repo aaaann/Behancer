@@ -1,12 +1,14 @@
 package com.annevonwolffen.behancer.ui.common
 
+import moxy.MvpView
+
 /**
  * Интерфейс базового экрана
  */
-interface BaseView {
-    fun showLoading();
+interface BaseView : MvpView {
+    fun showLoading()
 
-    fun hideLoading();
+    fun hideLoading()
 
-    fun showError();
+    fun showError()
 }

@@ -7,7 +7,7 @@
     android:layout_marginTop="@dimen/margin_small"
     android:drawablePadding="@dimen/margin_small"
     android:text="@string/load_error"
-    android:textAppearance="@style/TextAppearance.AppTheme.Body.Error"
+    android:textAppearance="@style/Theme.Behancer.TextAppearance.Body.Error"
     app:drawableTint="@color/red"
     app:drawableTopCompat="@drawable/ic_36_error" />
 

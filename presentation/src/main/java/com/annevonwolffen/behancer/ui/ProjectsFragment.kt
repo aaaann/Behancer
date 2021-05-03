@@ -1,23 +1,40 @@
 package com.annevonwolffen.behancer.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
-import com.annevonwolffen.behancer.ProjectsAdapter
 import com.annevonwolffen.behancer.R
+import com.annevonwolffen.behancer.ui.common.PresenterFragment
+import com.annevonwolffen.behancer.ui.common.RefreshOwner
 import com.annevonwolffen.behancer.ui.common.Refreshable
+import moxy.ktx.moxyPresenter
 
-class ProjectsFragment : Fragment(), Refreshable {
+class ProjectsFragment : PresenterFragment(), ProjectsView, Refreshable {
 
+    private lateinit var refreshOwner: RefreshOwner
     private lateinit var recyclerView: RecyclerView
     private lateinit var errorView: TextView
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    private val presenter by moxyPresenter { ProjectsPresenter() }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        if (context is RefreshOwner) {
+            refreshOwner = context
+        }
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.fr_projects, container, false)
     }
 
@@ -30,6 +47,7 @@ class ProjectsFragment : Fragment(), Refreshable {
         super.onActivityCreated(savedInstanceState)
         activity?.title = getString(R.string.projects_title)
 
+
         setUpRecycler()
 
         if (savedInstanceState == null) {
@@ -37,19 +55,36 @@ class ProjectsFragment : Fragment(), Refreshable {
         }
     }
 
-    override fun onRefreshData() {
-        getProjects()
-    }
-
     private fun setUpRecycler() {
         recyclerView.addItemDecoration(DividerItemDecoration(activity, RecyclerView.VERTICAL))
 //        recyclerView.adapter = ProjectsAdapter()
     }
 
-    private fun getProjects() {
+    override fun onRefreshData() {
+        presenter.getProjects()
+    }
+
+    override fun showProjects() {
+        errorView.visibility = View.GONE
+        recyclerView.visibility = View.VISIBLE
+        // TODO: add items to adapter
+    }
+
+    override fun showLoading() {
+        refreshOwner.setRefreshState(true)
+    }
+
+    override fun hideLoading() {
+        refreshOwner.setRefreshState(false)
+    }
+
+    override fun showError() {
+        errorView.visibility = View.VISIBLE
+        recyclerView.visibility = View.GONE
     }
 
     companion object {
         fun newInstance() = ProjectsFragment()
+
     }
 }
