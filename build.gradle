@@ -35,4 +35,5 @@ ext {
     retrofit = '2.9.0'
     retrofit2ConverterGson = '2.9.0'
     retrofit2AdapterRxjava2 = '2.6.4'
+    room = '2.2.5'
 }

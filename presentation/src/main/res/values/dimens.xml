@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="constraint_match_parent">0dp</dimen>
+
     <!-- icon size -->
     <dimen name="icon_size_medium">36dp</dimen>
+    <dimen name="icon_size_big">56dp</dimen>
+    <dimen name="icon_size_large">76dp</dimen>
 
     <!-- margins -->
     <dimen name="margin_small">8dp</dimen>
+
+    <!-- paddings -->
+    <dimen name="padding_small">8dp</dimen>
+    <dimen name="padding_medium">16dp</dimen>
 
 </resources>

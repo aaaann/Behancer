@@ -1,5 +1,15 @@
 package com.annevonwolffen.data.model
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
-class Cover(@SerializedName("original") val url: String)
+@Entity(tableName = "COVER")
+class Cover(
+    @PrimaryKey
+    @SerializedName("original")
+    val url: String,
+
+    @Transient
+    val projectId: Int
+)
