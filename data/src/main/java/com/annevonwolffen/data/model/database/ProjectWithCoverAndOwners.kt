@@ -11,13 +11,13 @@ class ProjectWithCoverAndOwners(
     @Embedded
     val project: Project,
     @Relation(
-        parentColumn = "id",
+        parentColumn = "projectId",
         entityColumn = "projectId"
     )
     val cover: Cover,
     @Relation(
-        parentColumn = "id",
-        entityColumn = "projectId",
+        parentColumn = "projectId",
+        entityColumn = "userId",
         associateBy = Junction(ProjectOwnerCrossRef::class)
     )
     val owners: List<User>

@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.annevonwolffen.behancer.R
 
-abstract class SingleFragmentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener, RefreshOwner {
+abstract class SingleFragmentActivity : AppCompatActivity(), SwipeRefreshLayout.OnRefreshListener,
+    RefreshOwner {
 
     private lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
@@ -27,13 +28,14 @@ abstract class SingleFragmentActivity : AppCompatActivity(), SwipeRefreshLayout.
         supportFragmentManager.apply {
             if (findFragmentById(R.id.fragment_container) == null) { //TODO: check if this check is needed
                 beginTransaction()
-                        .add(R.id.fragment_container, fragment)
-                        .commit()
+                    .add(R.id.fragment_container, fragment)
+                    .commit()
             }
         }
     }
 
     override fun onRefresh() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (fragment is Refreshable) {
             (fragment as Refreshable).onRefreshData()
         } else {

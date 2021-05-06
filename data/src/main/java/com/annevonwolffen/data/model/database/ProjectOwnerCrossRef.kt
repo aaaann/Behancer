@@ -2,8 +2,8 @@ package com.annevonwolffen.data.model.database
 
 import androidx.room.Entity
 
-@Entity(primaryKeys = ["projectId", "ownerId"])
+@Entity(primaryKeys = ["projectId", "userId"])
 class ProjectOwnerCrossRef(
     val projectId: Int,
-    val ownerId: Int
+    val userId: Int
 )

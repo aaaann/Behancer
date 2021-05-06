@@ -8,22 +8,32 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
+import com.annevonwolffen.behancer.AppDelegate
 import com.annevonwolffen.behancer.R
 import com.annevonwolffen.behancer.ui.common.PresenterFragment
 import com.annevonwolffen.behancer.ui.common.RefreshOwner
 import com.annevonwolffen.behancer.ui.common.Refreshable
+import com.annevonwolffen.domain.Project
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
+import javax.inject.Provider
 
 class ProjectsFragment : PresenterFragment(), ProjectsView, Refreshable {
 
     private lateinit var refreshOwner: RefreshOwner
     private lateinit var recyclerView: RecyclerView
+    private lateinit var recyclerViewAdapter: ProjectsAdapter
     private lateinit var errorView: TextView
 
-    private val presenter by moxyPresenter { ProjectsPresenter() }
+    @Inject
+    lateinit var presenterProvider: Provider<ProjectsPresenter>
+
+    private val presenter by moxyPresenter { presenterProvider.get() }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+
+        (requireActivity().application as AppDelegate).appComponent.inject(this)
 
         if (context is RefreshOwner) {
             refreshOwner = context
@@ -47,7 +57,6 @@ class ProjectsFragment : PresenterFragment(), ProjectsView, Refreshable {
         super.onActivityCreated(savedInstanceState)
         activity?.title = getString(R.string.projects_title)
 
-
         setUpRecycler()
 
         if (savedInstanceState == null) {
@@ -57,20 +66,24 @@ class ProjectsFragment : PresenterFragment(), ProjectsView, Refreshable {
 
     private fun setUpRecycler() {
         recyclerView.addItemDecoration(DividerItemDecoration(activity, RecyclerView.VERTICAL))
-//        recyclerView.adapter = ProjectsAdapter()
+        recyclerViewAdapter = ProjectsAdapter()
+        recyclerView.adapter = recyclerViewAdapter
     }
 
     override fun onRefreshData() {
         presenter.getProjects()
     }
 
-    override fun showProjects() {
+    override fun showProjects(projects: List<Project>) {
         errorView.visibility = View.GONE
         recyclerView.visibility = View.VISIBLE
-        // TODO: add items to adapter
+        recyclerViewAdapter.submitList(projects)
+
     }
 
     override fun showLoading() {
+        errorView.visibility = View.GONE
+        recyclerView.visibility = View.GONE
         refreshOwner.setRefreshState(true)
     }
 
@@ -85,6 +98,5 @@ class ProjectsFragment : PresenterFragment(), ProjectsView, Refreshable {
 
     companion object {
         fun newInstance() = ProjectsFragment()
-
     }
 }

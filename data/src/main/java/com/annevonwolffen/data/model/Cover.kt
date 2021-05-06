@@ -5,11 +5,10 @@ import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "COVER")
-class Cover(
+data class Cover (
     @PrimaryKey
     @SerializedName("original")
     val url: String,
 
-    @Transient
-    val projectId: Int
+    val projectId: Int = 0
 )

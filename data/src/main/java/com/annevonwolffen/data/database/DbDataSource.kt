@@ -12,7 +12,7 @@ class DbDataSource(private val dao: BehanceDao) : LocalDataSource {
             dao.selectAllProjects()
                 .map {
                     Project(
-                        it.project.id,
+                        it.project.projectId,
                         it.project.name,
                         it.project.publishedOn,
                         it.project.url,
@@ -26,10 +26,10 @@ class DbDataSource(private val dao: BehanceDao) : LocalDataSource {
     override fun insertProjects(projects: List<Project>) {
         with(dao) {
             insertProjects(projects)
-            insertCovers(projects.map { it.cover })
+            insertCovers(projects.map { it.cover.copy(projectId = it.projectId) })
             insertUsers(projects.flatMap { it.owners })
             insertJoin(projects.flatMap { project ->
-                project.owners.map { user -> ProjectOwnerCrossRef(project.id, user.id) }
+                project.owners.map { user -> ProjectOwnerCrossRef(project.projectId, user.userId) }
             })
         }
     }

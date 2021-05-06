@@ -2,12 +2,14 @@ package com.annevonwolffen.data.model
 
 import androidx.room.Entity
 import androidx.room.Ignore
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 @Entity(tableName = "PROJECT")
-class Project(
+data class Project @JvmOverloads constructor(
+    @PrimaryKey
     @SerializedName("id")
-    val id: Int,
+    val projectId: Int,
     @SerializedName("name")
     val name: String,
     @SerializedName("published_on")
@@ -16,8 +18,8 @@ class Project(
     val url: String,
     @Ignore
     @SerializedName("covers")
-    val cover: Cover,
+    val cover: Cover = Cover(""),
     @Ignore
     @SerializedName("owners")
-    val owners: List<User>
+    val owners: List<User> = emptyList()
 )
