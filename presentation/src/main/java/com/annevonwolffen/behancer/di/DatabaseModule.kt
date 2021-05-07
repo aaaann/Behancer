@@ -7,32 +7,33 @@ import com.annevonwolffen.data.database.BehanceDao
 import com.annevonwolffen.data.database.BehanceDatabase
 import com.annevonwolffen.data.database.BehanceDatabase.Companion.DB_NAME
 import com.annevonwolffen.data.database.DbDataSource
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule {
+abstract class DatabaseModule {
 
     @Singleton
-    @Provides
-    fun provideDatabase(context: Context): BehanceDatabase {
-        return Room.databaseBuilder(
-            context,
-            BehanceDatabase::class.java,
-            DB_NAME
-        ).build()
-    }
+    @Binds
+    abstract fun provideDbDataSource(dbDataSource: DbDataSource): LocalDataSource
 
-    @Singleton
-    @Provides
-    fun provideBehanceDao(database: BehanceDatabase): BehanceDao {
-        return database.behanceDao()
-    }
+    companion object {
+        @Singleton
+        @Provides
+        fun provideDatabase(context: Context): BehanceDatabase {
+            return Room.databaseBuilder(
+                context,
+                BehanceDatabase::class.java,
+                DB_NAME
+            ).build()
+        }
 
-    @Singleton
-    @Provides
-    fun provideDbDataSource(behanceDao: BehanceDao): LocalDataSource {
-        return DbDataSource(behanceDao)
+        @Singleton
+        @Provides
+        fun provideBehanceDao(database: BehanceDatabase): BehanceDao {
+            return database.behanceDao()
+        }
     }
 }

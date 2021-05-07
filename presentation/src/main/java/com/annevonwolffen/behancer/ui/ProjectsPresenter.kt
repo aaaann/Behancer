@@ -17,8 +17,7 @@ class ProjectsPresenter @Inject constructor(
     fun getProjects() {
         interactor.getProjects()
             .subscribeOn(schedulersProvider.io())
-            .doOnSubscribe { viewState.showLoading()
-            Log.d(TAG, Thread.currentThread().name)}
+            .doOnSubscribe { viewState.showLoading() }
             .observeOn(schedulersProvider.ui())
             .doFinally { viewState.hideLoading() }
             .doOnError { viewState.showError() }

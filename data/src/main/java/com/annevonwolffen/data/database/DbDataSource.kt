@@ -4,8 +4,9 @@ import com.annevonwolffen.data.LocalDataSource
 import com.annevonwolffen.data.model.Project
 import com.annevonwolffen.data.model.database.ProjectOwnerCrossRef
 import io.reactivex.Single
+import javax.inject.Inject
 
-class DbDataSource(private val dao: BehanceDao) : LocalDataSource {
+class DbDataSource @Inject constructor(private val dao: BehanceDao) : LocalDataSource {
 
     override fun getProjects(): Single<List<Project>> {
         return Single.fromCallable {
