@@ -1,18 +1,13 @@
 package com.annevonwolffen.behancer.ui.common
 
+import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
-import moxy.MvpPresenter
 
-open class BasePresenter<V : BaseView> : MvpPresenter<V>() {
-
+open class BaseViewModel : ViewModel() {
     protected val compositeDisposable = CompositeDisposable()
 
-    private fun disposeAll() {
+    override fun onCleared() {
+        super.onCleared()
         compositeDisposable.clear()
-    }
-
-    override fun onDestroy() {
-        disposeAll()
-        super.onDestroy()
     }
 }

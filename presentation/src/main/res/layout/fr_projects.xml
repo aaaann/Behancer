@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/projects_recycler"
+    <data class="ProjectsBinding">
+
+        <variable
+            name="viewModel"
+            type="com.annevonwolffen.behancer.ui.ProjectsViewModel" />
+
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/error_view"
-        layout="@layout/v_error"
-        android:visibility="gone" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/projects_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:projectsData="@{viewModel.projects}"
+            app:visibility="@{!(viewModel.isError() || viewModel.isLoading())}" />
 
-</LinearLayout>
+        <include
+            android:id="@+id/error_view"
+            layout="@layout/v_error"
+            app:visibility="@{viewModel.isError() &amp;&amp; !viewModel.isLoading()}" />
+
+    </LinearLayout>
+</layout>

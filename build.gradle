@@ -36,9 +36,10 @@ ext {
     retrofit2ConverterGson = '2.9.0'
     retrofit2AdapterRxjava2 = '2.6.4'
     room = '2.2.5'
-    dagger = '2.29.1'
     retrofit = '2.9.0'
     retrofit2ConverterGson = '2.9.0'
     retrofit2AdapterRxjava2 = '2.6.4'
     rxAndroid = '2.1.1'
+    picasso = '2.71828'
+    toothpick = '3.1.0'
 }

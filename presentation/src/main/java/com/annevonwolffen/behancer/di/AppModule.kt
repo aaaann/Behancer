@@ -2,11 +2,10 @@ package com.annevonwolffen.behancer.di
 
 import com.annevonwolffen.behancer.utils.SchedulersProvider
 import com.annevonwolffen.behancer.utils.SchedulersProviderImpl
-import dagger.Binds
-import dagger.Module
+import toothpick.config.Module
 
-@Module
-abstract class AppModule {
-    @Binds
-    abstract fun provideSchedulers(schedulersProviderImpl: SchedulersProviderImpl): SchedulersProvider
+class AppModule : Module() {
+    init {
+        bind(SchedulersProvider::class.java).toInstance(SchedulersProviderImpl())
+    }
 }
